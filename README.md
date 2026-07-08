@@ -73,9 +73,9 @@ src
 │   ├── jwt.strategy.ts
 │   └── jwt-auth.guard.ts
 │
-├── pedidos
-│   ├── pedidos.controller.ts
-│   ├── pedidos.service.ts
+├── orders
+│   ├── orders.controller.ts
+│   ├── orders.service.ts
 │   └── dto
 │
 ├── prisma
@@ -119,7 +119,7 @@ Campos:
 - endereço de entrega
 - status
 - data de criação
-- data de exclusão lógica
+- data de exclusão
 
 
 ## Item do pedido
