@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum StatusPedido {
+  PENDENTE
+  EM_PROCESSAMENTO
+  ENTREGUE
+  CANCELADO
+}
+
+model Usuario {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  senha     String
+
+  criadoEm  DateTime @default(now())
+
+  @@map("usuarios")
+}
+
+model Pedido {
+  id                    String         @id @default(uuid())
+  numeroPedido          String         @unique
+  dataPrevisaoEntrega   DateTime
+
+  clienteNome           String
+  clienteDocumento      String
+
+  enderecoEntrega       String
+
+  status                StatusPedido   @default(PENDENTE)
+
+  dataCriacao           DateTime       @default(now())
+  excluidoEm            DateTime?
+
+  itens                 ItemPedido[]
+
+  @@map("pedidos")
+}
+
+model ItemPedido {
+  id          String   @id @default(uuid())
+
+  descricao   String
+  preco       Decimal  @db.Decimal(10,2)
+
+  pedidoId    String
+  pedido      Pedido @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+
+  @@map("itens_pedido")
+}
