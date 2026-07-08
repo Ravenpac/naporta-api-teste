@@ -1,98 +1,458 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# NaPorta API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST desenvolvida para gerenciamento de pedidos da plataforma **NaPorta**.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Este projeto foi desenvolvido como desafio técnico Backend Node.js, aplicando boas práticas de arquitetura, segurança, organização de código e persistência de dados utilizando banco relacional.
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+# Tecnologias utilizadas
 
-## Project setup
+## Backend
 
-```bash
-$ yarn install
+- Node.js
+- NestJS
+- TypeScript
+
+## Banco de dados
+
+- PostgreSQL
+- Prisma ORM
+
+## Segurança
+
+- JWT (JSON Web Token)
+- Passport JWT
+- Bcrypt para criptografia de senhas
+
+## Qualidade e desenvolvimento
+
+- ESLint
+- Prettier
+- Jest
+- Class Validator
+
+## Documentação
+
+- Swagger / OpenAPI
+
+---
+
+# Funcionalidades
+
+A API possui as seguintes funcionalidades:
+
+## Autenticação
+
+- Login utilizando email e senha
+- Geração de token JWT
+- Autenticação utilizando Bearer Token
+
+## Pedidos
+
+- Criar pedido
+- Listar pedidos
+- Filtrar pedidos por:
+  - Número do pedido
+  - Data inicial e final
+  - Status
+- Editar pedido
+- Exclusão lógica de pedido
+
+---
+
+# Arquitetura do projeto
+
+A aplicação segue uma arquitetura modular utilizando NestJS.
+
+```
+src
+├── auth
+│   ├── auth.controller.ts
+│   ├── auth.service.ts
+│   ├── jwt.strategy.ts
+│   └── jwt-auth.guard.ts
+│
+├── pedidos
+│   ├── pedidos.controller.ts
+│   ├── pedidos.service.ts
+│   └── dto
+│
+├── prisma
+│   ├── prisma.module.ts
+│   └── prisma.service.ts
+│
+└── main.ts
 ```
 
-## Compile and run the project
+A organização por módulos facilita manutenção, escalabilidade e separação de responsabilidades.
+
+---
+
+# 🗄 Modelo de dados
+
+A aplicação utiliza PostgreSQL com Prisma ORM.
+
+## Usuário
+
+Responsável pela autenticação da aplicação.
+
+Campos:
+
+- id
+- email
+- senha
+- data de criação
+
+
+## Pedido
+
+Representa um pedido realizado.
+
+Campos:
+
+- id
+- número do pedido
+- data prevista de entrega
+- cliente
+- documento do cliente
+- endereço de entrega
+- status
+- data de criação
+- data de exclusão lógica
+
+
+## Item do pedido
+
+Representa os itens pertencentes a um pedido.
+
+Campos:
+
+- id
+- descrição
+- preço
+- pedido relacionado
+
+---
+
+# Instalação
+
+## Pré-requisitos
+
+Antes de iniciar, tenha instalado:
+
+- Node.js 20+
+- Yarn
+- PostgreSQL ou Docker
+
+
+## Clonar o projeto
 
 ```bash
-# development
-$ yarn run start
+git clone https://github.com/Ravenpac/naporta-api-teste.git
 
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+cd naporta-api
 ```
 
-## Run tests
+---
+
+## Instalar dependências
 
 ```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+yarn
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+# Configuração de ambiente
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Crie um arquivo:
+
+```
+.env
+```
+
+baseado no arquivo:
+
+```
+.env.example
+```
+
+Exemplo:
+
+```env
+DATABASE_URL="postgresql://usuario:senha@localhost:5432/naporta"
+
+JWT_SECRET="secret-key"
+```
+
+---
+
+# Banco de dados
+
+Executar migrations:
 
 ```bash
-$ yarn install -g @nestjs/mau
-$ mau deploy
+yarn prisma migrate dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Gerar Prisma Client:
 
-## Resources
+```bash
+yarn prisma generate
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# Seed do banco
 
-## Support
+O projeto possui um script de seed responsável por popular o banco inicialmente com dados fictícios.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Executar:
 
-## Stay in touch
+```bash
+yarn prisma db seed
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+O seed cria:
 
-## License
+## Usuário administrador
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```
+Email:
+admin@naporta.com
+
+Senha:
+admin123
+```
+
+Também são criados pedidos e itens fictícios para demonstração.
+
+---
+
+# Executando a aplicação
+
+Modo desenvolvimento:
+
+```bash
+yarn start:dev
+```
+
+A aplicação ficará disponível em:
+
+```
+http://localhost:3000
+```
+
+---
+
+# Swagger
+
+A documentação da API está disponível através do Swagger:
+
+```
+http://localhost:3000/api
+```
+
+A documentação permite:
+
+- Visualizar endpoints
+- Testar requisições
+- Informar token JWT
+- Validar contratos da API
+
+---
+
+# Autenticação
+
+As rotas de pedidos são protegidas utilizando JWT.
+
+## Login
+
+Endpoint:
+
+```
+POST /auth/login
+```
+
+Body:
+
+```json
+{
+  "email": "admin@naporta.com",
+  "senha": "admin123"
+}
+```
+
+Resposta:
+
+```json
+{
+  "access_token": "jwt-token"
+}
+```
+
+Para acessar rotas protegidas, informe o token no header:
+
+```
+Authorization: Bearer jwt-token
+```
+
+---
+
+# Endpoints
+
+## Auth
+
+### Login
+
+```
+POST /auth/login
+```
+
+---
+
+# Pedidos
+
+Todas as rotas abaixo necessitam de autenticação.
+
+---
+
+## Criar pedido
+
+```
+POST /pedidos
+```
+
+---
+
+## Listar pedidos
+
+```
+GET /pedidos
+```
+
+---
+
+## Filtrar pedidos
+
+### Por número
+
+```
+GET /pedidos?numeroPedido=PED-001
+```
+
+### Por status
+
+```
+GET /pedidos?status=PENDENTE
+```
+
+### Por período
+
+```
+GET /pedidos?dataInicial=2026-01-01&dataFinal=2026-12-31
+```
+
+---
+
+## Editar pedido
+
+```
+PATCH /pedidos/:id
+```
+
+---
+
+## Excluir pedido
+
+A exclusão dos pedidos é feita utilizando exclusão lógica.
+
+Os registros continuam no banco, porém recebem uma data de exclusão e deixam de aparecer nas consultas padrões.
+
+```
+DELETE /pedidos/:id
+```
+
+---
+
+# Testes
+
+Executar testes:
+
+```bash
+yarn test
+```
+
+Executar testes com cobertura:
+
+```bash
+yarn test:cov
+```
+
+---
+
+# Qualidade de código
+
+Formatar código:
+
+```bash
+yarn format
+```
+
+Executar lint:
+
+```bash
+yarn lint
+```
+
+---
+
+# Docker
+
+Subir containers:
+
+```bash
+docker compose up -d
+```
+
+---
+
+# Decisões técnicas
+
+## NestJS
+
+Escolhido por sua arquitetura modular, suporte nativo a TypeScript e recursos como injeção de dependência, validação e organização por módulos.
+
+## PostgreSQL
+
+Escolhido por ser um banco relacional robusto e adequado para o relacionamento entre pedidos e itens.
+
+## Prisma ORM
+
+Utilizado para facilitar o gerenciamento do banco, migrations e consultas com segurança de tipos.
+
+## JWT
+
+Utilizado para autenticação stateless e proteção das rotas privadas utilizando Bearer Token.
+
+---
+
+# Scripts disponíveis
+
+| Comando | Descrição |
+|---|---|
+| `yarn start:dev` | Executa aplicação em desenvolvimento |
+| `yarn build` | Compila aplicação |
+| `yarn prisma migrate dev` | Executa migrations |
+| `yarn prisma db seed` | Popula banco com dados iniciais |
+| `yarn prisma studio` | Abre interface visual do banco |
+| `yarn test` | Executa testes |
+| `yarn lint` | Verifica padrões de código |
+| `yarn format` | Formata arquivos |
+
+---
+
+# Sobre o projeto
+
+Projeto desenvolvido como parte de um desafio técnico Backend Node.js, com foco em construção de uma API REST escalável, segura e organizada utilizando tecnologias modernas do ecossistema JavaScript/TypeScript.

@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CriarPedidoDto } from './dto/criar-pedido.dto';
+import { AtualizarPedidoDto } from './dto/atualizar-pedido.dto';
 import { FiltroPedidoDto } from './dto/filtro-pedido.dto';
 
 @Injectable()
@@ -73,6 +74,59 @@ export class OrdersService {
 
       orderBy: {
         dataCriacao: 'desc',
+      },
+    });
+  }
+
+  async atualizarPedido(id: string, atualizarPedidoDto: AtualizarPedidoDto) {
+    const pedido = await this.prisma.pedido.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!pedido) {
+      throw new NotFoundException('Pedido não encontrado');
+    }
+
+    const { itens, ...pedidoData } = atualizarPedidoDto;
+
+    return this.prisma.pedido.update({
+      where: {
+        id,
+      },
+      data: {
+        ...pedidoData,
+        ...(itens && {
+          itens: {
+            deleteMany: {},
+            create: itens,
+          },
+        }),
+      },
+      include: {
+        itens: true,
+      },
+    });
+  }
+
+  async excluirPedido(id: string) {
+    const pedido = await this.prisma.pedido.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!pedido) {
+      throw new NotFoundException('Pedido não encontrado');
+    }
+
+    return this.prisma.pedido.update({
+      where: {
+        id,
+      },
+      data: {
+        excluidoEm: new Date(),
       },
     });
   }
